@@ -64,6 +64,9 @@ local function loadingSequence()
 	--@end-non-debug@]===]
 	--endregion
 
+	MAIN_SEQUENCE_DETAIL = "VersionCheck";
+	TRP3_API.checkVersion();
+
 	-- Get info we can't have earlier
 	MAIN_SEQUENCE_DETAIL = "Globals.build";
 	Globals.build();
@@ -141,9 +144,8 @@ function Globals.addon:OnEnable()
 end
 
 function TRP3_ShowErrorMessage()
-	print(COLORS.ORANGE(("[TRP3: %s]"):format(TRP3_API.VERSION_DISPLAY)) .. " " .. COLORS.RED("Error during addon loading sequence:"));
+	print(COLORS.ORANGE(("[TRP3: %s (%s)]"):format(TRP3_API.VERSION_DISPLAY, TRP3_API.BUILD_NUMBER)) .. " " .. COLORS.RED("Error during addon loading sequence:"));
 	print(COLORS.ORANGE("Sequence ID: ") .. " " .. MAIN_SEQUENCE_ID);
 	print(COLORS.ORANGE("Sub-sequence ID: ") .. " " .. MAIN_SEQUENCE_DETAIL);
 	print(COLORS.ORANGE("Error message: ") .. " " .. tostring(MAIN_SEQUENCE_ERROR));
-	print(COLORS.ITEM_ARTIFACT("Note: If you just recently updated the add-on, remember that you need to fully relaunch the game client. Updating while the game client is open will not load new files."));
 end

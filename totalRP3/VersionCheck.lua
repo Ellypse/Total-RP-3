@@ -18,23 +18,18 @@
 ----------------------------------------------------------------------------------
 
 ---@type TRP3_API
-local _, TRP3_API = ...;
+local addOnName, TRP3_API = ...;
 
---region Build version check
-if TRP3_API.BUILD_NUMBER == nil then
-	-- luacheck: ignore 311
-	TRP3_API = nil -- Force API reference to nil. This will break most of the add-on so it stops loading.
-	error([[Missing critical Total RP 3 files.
-
-You probably tried to update the add-on while the game client was running. This is not recommended.
-Please quit the game completely in order for the add-on to properly update.
-]]);
+function TRP3_API.checkVersion()
+	-- Toc version is different from code version, the add-on was updated while the game was running
+	if TRP3_API.VERSION_DISPLAY ~= GetAddOnMetadata(addOnName, "Version")then
+		-- luacheck: ignore 311
+		TRP3_API = nil -- Force API reference to nil. This will break most of the add-on so it stops loading.
+		error("Total RP 3 was updated while the game client was running and will not be able to function correctly until your completely restart your game client.");
+	end
 end
---endregion
 
---region Dev builds setup
 --@alpha@
 -- Force showing Lua errors on non release builds
 SetCVar("scriptErrors", 1);
 --@end-alpha@
---endregion
